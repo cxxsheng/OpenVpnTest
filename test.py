@@ -4,10 +4,16 @@ import getopt
 import sys
 import subprocess
 import os
+import platform
 
 def test_ping(name, ip):
     print('test %s - %s' % (name,ip)),
-    ret = subprocess.call('ping -W 1000 -c 1 %s' % ip,stdout=subprocess.PIPE,shell=True)
+    if platform.system() == "Darwin":
+        ret = subprocess.call('ping -W 1000 -c 1 %s' % ip,stdout=subprocess.PIPE,shell=True)
+    elif platform.system() == "Windows":
+        ret = subprocess.call('ping -w 1000 -n 1 %s' % ip,stdout=subprocess.PIPE,shell=True)    
+    else:
+        ret = 1
     if ret == 0:
         print(' success')
     else:
