@@ -12,8 +12,9 @@ def test_ping(name, ip):
         ret = subprocess.call('ping -W 1000 -c 1 %s' % ip,stdout=subprocess.PIPE,shell=True)
     elif platform.system() == "Windows":
         ret = subprocess.call('ping -w 1000 -n 1 %s' % ip,stdout=subprocess.PIPE,shell=True)    
-    else:
-        ret = 1
+    elif platform.system() == "Linux":
+        ret = subprocess.call('ping -w 1 -c 1 %s' % ip,stdout=subprocess.PIPE,shell=True)    
+
     if ret == 0:
         print(' success')
     else:
@@ -79,4 +80,4 @@ else:
 
     print("**************************************")           
     print("test finished, num: %d/%d, good server list is:" % (goodServerCout, serverCout))            
-    print(okList)            
+    print(okList) 
